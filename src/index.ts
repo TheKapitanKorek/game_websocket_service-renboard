@@ -1,15 +1,11 @@
-import { createServer } from 'https';
+import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import url from 'url';
 
-const serverFunction = ( req, res )=>{
-  const q = url.parse(req.url, true).query;
-  console.log(q);
-}
+import { serverInit } from './server.js';
+  
+const server = createServer({},serverInit);
 
-const server = createServer();
-
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({server});
 
 interface Message {
   type: 'create' | 'join' | 'leave';
@@ -41,6 +37,8 @@ wss.on('connection', function connection(ws){
   })
 }
 )
+
+const rooms = {};
 
 const create = (params)=>{}
 const join = (params)=>{}
